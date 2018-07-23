@@ -1,0 +1,12 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: test-nginx
+  labels:
+    name: test-nginx
+spec:
+  containers:
+  - name: test-nginx
+    image: gcr.io/$(PROJECT)/test-nginx
+    ports:
+      - containerPort: 80

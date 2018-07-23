@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: default-backend
+spec:
+  type: LoadBalancer
+  selector:
+    app: default-backend
+  ports:
+  - port: 80
+    targetPort: 8080

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: git-analyzer
+spec:
+  selector:
+    matchLabels:
+      app: git-analyzer
+  template:
+    metadata:
+      labels:
+        app: git-analyzer
+    spec:
+      initContainers:
+        - name: git-cloner
+          image: alpine/git
+          command: ["git", "clone", "https://github.com/kubernetes/metrics", "/data/metrics"]
+          volumeMounts:
+            - name: git-repos
+              mountPath: /data
+      containers:
+        - name: git-analyzer
+          image: alpine/git
+          command:
+          - git
+          - "log"
+          -  "-p"
+          - --git-dir=/var/lib/repositories/metrics.git"
+          - "| cat"
+          volumeMounts:
+            - name: git-repos
+              mountPath: /var/lib/repositories
+          env:
+            - name: GIT_DISCOVERY_ACROSS_FILESYSTEM
+              value: "1"
+      volumes:
+        - name: git-repos
+          hostPath:
+            path: /var/repos
