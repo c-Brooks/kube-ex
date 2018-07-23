@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: my-nginx
+spec:
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        name: my-nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          volumeMounts:
+          - name: my-volume
+            mountPath: /var/data
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: my-pvc
