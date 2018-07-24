@@ -1,0 +1,16 @@
+{
+  "CN": "system:kube-proxy",
+  "key": {
+    "algo": "rsa",
+    "size": 2048
+  },
+  "names": [
+    {
+      "C": "CAN",
+      "L": "Victoria",
+      "O": "system:node-proxier",
+      "OU": "kube-ex",
+      "ST": "BC"
+    }
+  ]
+}
