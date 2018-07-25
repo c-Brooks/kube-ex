@@ -135,7 +135,7 @@ sudo systemctl start kube-apiserver kube-controller-manager kube-scheduler
 #
 # enable healthcheck using Nginx
 #
-sudo apt-get update && apt-get install -y nginx
+sudo apt-get update && sudo apt-get install -y nginx
 cat > kubernetes.default.svc.cluster.local <<EOF
 server {
   listen      80;

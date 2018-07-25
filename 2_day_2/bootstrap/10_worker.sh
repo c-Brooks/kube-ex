@@ -100,8 +100,6 @@ Documentation=https://containerd.io
 After=network.target
 
 [Service]
-Type=notify
-NotifyAccess=all
 ExecStartPre=/sbin/modprobe overlay
 ExecStart=/bin/containerd
 Restart=always
@@ -123,6 +121,8 @@ EOF
   sudo mv ca.pem /var/lib/kubernetes/
 }
 
+# kubelet will use webhook authorization mode
+# https://kubernetes.io/docs/reference/access-authn-authz/authentication/
 cat <<EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
@@ -152,8 +152,6 @@ After=containerd.service
 Requires=containerd.service
 
 [Service]
-Type=notify
-NotifyAccess=all
 ExecStart=/usr/local/bin/kubelet \\
   --config=/var/lib/kubelet/kubelet-config.yaml \\
   --container-runtime=remote \\
@@ -177,8 +175,6 @@ Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
 
 [Service]
-Type=notify
-NotifyAccess=all
 ExecStart=/usr/local/bin/kube-proxy \\
   --config=/var/lib/kube-proxy/kube-proxy-config.yaml
 
@@ -191,7 +187,7 @@ EOF
 
 sudo systemctl daemon-reload
 sudo systemctl enable containerd kubelet kube-proxy
-sudo systemctl restart containerd kubelet kube-proxy
+sudo systemctl start containerd kubelet kube-proxy
 
 #
 # verify

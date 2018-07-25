@@ -5,14 +5,14 @@ KUBERNETES_PUBLIC_ADDRESS=$(gcloud compute addresses describe kube-ex \
 # workers
 for instance in worker-0 worker-1 worker-2; do
   kubectl config set-cluster kube-ex \
-    --certificate-authority=certs/ca/ca.pem \
+    --certificate-authority=certs/ca.pem \
     --embed-certs=true \
     --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
     --kubeconfig=kubeconfigs/${instance}.kubeconfig
 
   kubectl config set-credentials system:node:${instance} \
-    --client-certificate=certs/client/${instance}.pem \
-    --client-key=certs/client/${instance}-key.pem \
+    --client-certificate=certs/${instance}.pem \
+    --client-key=certs/${instance}-key.pem \
     --embed-certs=true \
     --kubeconfig=kubeconfigs/${instance}.kubeconfig
 
@@ -26,14 +26,14 @@ done
 
 # admin (kube-apiserver)
 kubectl config set-cluster kube-ex \
-  --certificate-authority=certs/ca/ca.pem \
+  --certificate-authority=certs/ca.pem \
   --embed-certs=true \
   --server=https://127.0.0.1:6443 \
   --kubeconfig=kubeconfigs/admin.kubeconfig
 
 kubectl config set-credentials admin \
-  --client-certificate=certs/admin/admin.pem \
-  --client-key=certs/admin/admin-key.pem \
+  --client-certificate=certs/admin.pem \
+  --client-key=certs/admin-key.pem \
   --embed-certs=true \
   --kubeconfig=kubeconfigs/admin.kubeconfig
 
@@ -47,14 +47,14 @@ kubectl config use-context default --kubeconfig=kubeconfigs/admin.kubeconfig
 # other components
 for COMPONENT in kube-proxy kube-controller-manager kube-scheduler; do
   kubectl config set-cluster kube-ex \
-    --certificate-authority=certs/ca/ca.pem \
+    --certificate-authority=certs/ca.pem \
     --embed-certs=true \
     --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443 \
     --kubeconfig=kubeconfigs/${COMPONENT}.kubeconfig
 
   kubectl config set-credentials system:${COMPONENT} \
-    --client-certificate=certs/component/${COMPONENT}.pem \
-    --client-key=certs/component/${COMPONENT}-key.pem \
+    --client-certificate=certs/${COMPONENT}.pem \
+    --client-key=certs/${COMPONENT}-key.pem \
     --embed-certs=true \
     --kubeconfig=kubeconfigs/${COMPONENT}.kubeconfig
 

@@ -1,5 +1,6 @@
 gcloud compute ssh controller-0
 
+# give kube-apiserver permissions to access the Kubelet API
 cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
@@ -24,6 +25,7 @@ EOF
 
 # The Kubernetes API Server authenticates to the Kubelet as the kubernetes user
 # using the client certificate as defined by the --kubelet-client-certificate flag.
+# now bind the role to User "kubernetes"
 cat <<EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
