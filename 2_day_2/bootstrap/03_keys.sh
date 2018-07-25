@@ -100,15 +100,15 @@ EXTERNAL_IP=$(gcloud compute instances describe ${instance} \
 INTERNAL_IP=$(gcloud compute instances describe ${instance} \
   --format 'value(networkInterfaces[0].networkIP)')
 
-cfssl gencert \
+echo "cfssl gencert \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
   -config=ca-config.json \
   -hostname=${instance},${EXTERNAL_IP},${INTERNAL_IP} \
   -profile=kubernetes \
   ${instance}-csr.json | cfssljson -bare ${instance}
+"
 done
-
 {
 
 cat > kube-controller-manager-csr.json <<EOF
@@ -224,6 +224,7 @@ cat > kubernetes-csr.json <<EOF
 }
 EOF
 
+echo "
 cfssl gencert \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
@@ -233,7 +234,7 @@ cfssl gencert \
   kubernetes-csr.json | cfssljson -bare kubernetes
 
 }
-
+"
 {
 cat > service-account-csr.json <<EOF
 {
