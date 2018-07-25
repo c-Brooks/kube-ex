@@ -2,7 +2,7 @@
 # now let's do the workers
 
 # ssh into each worker
-gcloud compute ssh worker-0
+# gcloud compute ssh worker-0
 sudo apt-get update
 sudo apt-get -y install socat conntrack ipset
 

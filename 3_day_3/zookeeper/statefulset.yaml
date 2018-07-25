@@ -7,7 +7,7 @@ spec:
     matchLabels:
       app: zk
   serviceName: zk-headless
-  replicas: 5
+  replicas: 3
   updateStrategy:
     type: RollingUpdate
   podManagementPolicy: Parallel
@@ -18,7 +18,8 @@ spec:
     spec:
       affinity:
         podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
+          # Changed from required
+          preferredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchExpressions:
                   - key: "app"

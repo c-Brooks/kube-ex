@@ -1,4 +1,9 @@
 # generate the certificates and keys
+#
+# if your laptop doesn't have cfssl installed, run these commands in a docker container
+# that has the PWD mounted to it:
+# docker run -it -v $PWD:/go/src/github.com/cloudflare/cfssl --entrypoint bash cfssl/cfssl
+
 {
 cat > ca-config.json <<EOF
 {

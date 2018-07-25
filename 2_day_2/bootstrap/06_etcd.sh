@@ -1,5 +1,5 @@
 # ssh into a controller
-# gcloud compute ssh controller-0
+gcloud compute ssh controller-0
 
 # in the controller:
 
